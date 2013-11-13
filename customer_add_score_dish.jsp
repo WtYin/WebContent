@@ -37,8 +37,7 @@
 <body>
 your ssn is:
 <% 
-String cssn = session.getAttribute("cssn").toString();
-out.print(cssn);
+out.print(session.getAttribute("cssn"));
 %>
 
 <p>
@@ -72,33 +71,10 @@ The list of all the dishes and their id:
  if( conn != null ) { 
  conn.close(); 
  } 
- 
-
  %> 
+ </TABLE>
  
-<!-- Database lookup --> 
-<% 
- try { 
- OracleDataSource ods = new OracleDataSource(); 
- 
- ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
- conn = ods.getConnection(); 
- Statement stmt1 = conn.createStatement(); 
- 
- String dish_score=request.getParameter("dish_score");
- String did=request.getParameter("did");
-
- rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + cssn +"'," + did + ")"); 
- 
- } catch (SQLException e) { 
- error_msg = e.getMessage(); 
- if( conn != null ) { 
- conn.close(); 
- } 
- } 
-%> 
-%> 
- </TABLE> 
+  
 </body> 
 </html>
  

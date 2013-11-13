@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=GB18030"
     pageEncoding="GB18030"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- This import is necessary for JDBC --> 
+<%@ page import="java.sql.*"%> 
+<%@ page import="oracle.jdbc.pool.OracleDataSource"%> 
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
@@ -18,6 +22,33 @@ Thank you for your scoring!
  <FORM action="main.jsp" method=post name=main_choice>
 <INPUT TYPE="submit" value="back to main">
 </FORM>
+ <!-- Database lookup --> 
+
+<% 
+ Connection conn = null; 
+ ResultSet rset = null; 
+ String error_msg = ""; 
+ String cssn = session.getAttribute("cssn").toString();
+ out.print(cssn);
+ try { 
+ OracleDataSource ods = new OracleDataSource(); 
+ 
+ ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
+ conn = ods.getConnection(); 
+ Statement stmt1 = conn.createStatement(); 
+ 
+ String dish_score=request.getParameter("dish_score");
+ String did=request.getParameter("did");
+
+ rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + cssn +"'," + did + ")"); 
+ 
+ } catch (SQLException e) { 
+ error_msg = e.getMessage(); 
+ if( conn != null ) { 
+ conn.close(); 
+ } 
+ } 
+%> 
 
 </body>
 </html>
