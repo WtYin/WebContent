@@ -37,8 +37,7 @@
 <body>
 your ssn is:
 <% 
-String cssn = session.getAttribute("cssn").toString();
-out.print(cssn);
+out.print(session.getAttribute("cssn"));
 %>
 
 <p>
@@ -72,10 +71,10 @@ The list of all the dishes and their id:
  if( conn != null ) { 
  conn.close(); 
  } 
- 
-
  %> 
+ </TABLE>
  
+<<<<<<< HEAD
 <!-- Database lookup --> 
 <% 
  try { 
@@ -98,6 +97,9 @@ The list of all the dishes and their id:
  } 
 %> 
  </TABLE> 
+=======
+  
+>>>>>>> 36d37c4564bb545eda424417fee7db17eff438e2
 </body> 
 </html>
  
