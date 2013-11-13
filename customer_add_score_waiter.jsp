@@ -44,8 +44,8 @@ out.print(session.getAttribute("cssn"));
 Please select the ssn of waiter that you want to score
 </p>
 
-<FORM  method=post name=cssn_input> 
-<INPUT type="text" name="waiter_option">
+<FORM  action="thankyou_score_waiter.jsp" method=post name=cssn_input> 
+<INPUT type="text" name="waiter_ssn">
 <br>Please input the score (0 ~ 10)</br>
 <INPUT type="text" name="waiter_score">
 <br></br>
