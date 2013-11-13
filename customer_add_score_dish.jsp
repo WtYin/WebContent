@@ -18,8 +18,8 @@
  ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
  conn = ods.getConnection(); 
  Statement stmt = conn.createStatement(); 
- rset = stmt.executeQuery("select D.did, D.dname from Dish_offer D"); 
  
+ rset = stmt.executeQuery("select D.did, D.dname from Dish_offer D"); 
  
  } catch (SQLException e) { 
  error_msg = e.getMessage(); 
@@ -37,7 +37,8 @@
 <body>
 your ssn is:
 <% 
-out.print(session.getAttribute("cssn"));
+String cssn = session.getAttribute("cssn").toString();
+out.print(cssn);
 %>
 
 <p>
@@ -45,9 +46,9 @@ Please select the id of dish that you want to score
 </p>
 
 <FORM  action="thankyou.jsp" method=post name=cssn_input> 
-<INPUT type="text" name="waiter_option">
+<INPUT type="text" name="did">
 <br>Please input the score (0 ~ 10)</br>
-<INPUT type="text" name="waiter_score">
+<INPUT type="text" name="dish_score">
 <br></br>
 <INPUT TYPE="submit" value="submit" name=score_submit>
 </FORM>
@@ -74,6 +75,29 @@ The list of all the dishes and their id:
  
 
  %> 
+ 
+<!-- Database lookup --> 
+<% 
+ try { 
+ OracleDataSource ods = new OracleDataSource(); 
+ 
+ ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
+ conn = ods.getConnection(); 
+ Statement stmt1 = conn.createStatement(); 
+ 
+ String dish_score=request.getParameter("dish_score");
+ String did=request.getParameter("did");
+
+ rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + cssn +"'," + did + ")"); 
+ 
+ } catch (SQLException e) { 
+ error_msg = e.getMessage(); 
+ if( conn != null ) { 
+ conn.close(); 
+ } 
+ } 
+%> 
+%> 
  </TABLE> 
 </body> 
 </html>
