@@ -88,7 +88,7 @@ The list of all the dishes and their id:
  String dish_score=request.getParameter("dish_score");
  String did=request.getParameter("did");
 
- rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + cssn +"'," + did + ")"); 
+ rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + session.getAttribute("cssn") +"'," + did + ")"); 
  
  } catch (SQLException e) { 
  error_msg = e.getMessage(); 
@@ -96,7 +96,6 @@ The list of all the dishes and their id:
  conn.close(); 
  } 
  } 
-%> 
 %> 
  </TABLE> 
 </body> 
