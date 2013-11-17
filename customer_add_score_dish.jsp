@@ -9,8 +9,10 @@
  
 <!-- Database lookup --> 
 <% 
+ String cssn=session.getAttribute("cssn").toString();
  Connection conn = null; 
- ResultSet rset = null; 
+ ResultSet rset = null;
+ ResultSet rset2 = null;
  String error_msg = ""; 
  try { 
  OracleDataSource ods = new OracleDataSource(); 
@@ -18,9 +20,9 @@
  ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
  conn = ods.getConnection(); 
  Statement stmt = conn.createStatement(); 
- 
- rset = stmt.executeQuery("select D.did, D.dname from Dish_offer D"); 
- 
+ Statement stmt2 = conn.createStatement();
+ rset = stmt.executeQuery("select D.did, D.dname, R.rname from Dish_offer D, Restaurant_manage R Where D.rid=R.rid"); 
+ rset2 = stmt2.executeQuery("select D.did, D.dname, H.cdscore from Dish_offer D, Have_eaten H where D.did=H.did and H.customer_ssn='"+cssn+"'"); 
  } catch (SQLException e) { 
  error_msg = e.getMessage(); 
  if( conn != null ) { 
@@ -37,9 +39,30 @@
 <body>
 your ssn is:
 <% 
-out.print(session.getAttribute("cssn"));
+out.print(cssn);
 %>
+<p>
+The dish you have scored:
+</p>
 
+<TABLE border="4"> 
+ <tr> 
+  <td>ID</td> <td>DISH NAME</td><td>SCORE</td>
+ </tr> 
+  <% 
+ if(rset2 != null) { 
+ while(rset2.next()) { 
+ out.print("<tr>"); 
+ out.print( "<td>" + rset2.getString("did") + "</td>" 
+ + "<td>" + rset2.getString("dname") + "</td>"+ "<td>" + rset2.getString("cdscore") + "</td>"); 
+ out.print("</tr>"); 
+ } 
+ } else { 
+ out.print(error_msg); 
+ } 
+ %>
+  
+ </TABLE>
 <p>
 Please select the id of dish that you want to score
 </p>
@@ -54,15 +77,15 @@ Please select the id of dish that you want to score
 
 The list of all the dishes and their id:
 
- <TABLE border="4"> 
+<TABLE border="4"> 
  <tr> 
- <td>ID</td> <td>DISH NAME</td>
+  <td>RESTAURANT NAME</td><td>ID</td> <td>DISH NAME</td>
  </tr> 
   <% 
  if(rset != null) { 
  while(rset.next()) { 
  out.print("<tr>"); 
- out.print("<td>" + rset.getString("did") + "  " + "</td>" + "<td>" + rset.getString("dname") + "</td>"); 
+ out.print("<td>" + rset.getString("rname") + "</td>" +"<td>" + rset.getString("did") + "</td>" + "<td>" + rset.getString("dname") + "</td>"); 
  out.print("</tr>"); 
  } 
  } else { 
@@ -73,33 +96,11 @@ The list of all the dishes and their id:
  } 
  %> 
  </TABLE>
- 
-<<<<<<< HEAD
-<!-- Database lookup --> 
-<% 
- try { 
- OracleDataSource ods = new OracleDataSource(); 
- 
- ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
- conn = ods.getConnection(); 
- Statement stmt1 = conn.createStatement(); 
- 
- String dish_score=request.getParameter("dish_score");
- String did=request.getParameter("did");
 
- rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + session.getAttribute("cssn") +"'," + did + ")"); 
- 
- } catch (SQLException e) { 
- error_msg = e.getMessage(); 
- if( conn != null ) { 
- conn.close(); 
- } 
- } 
-%> 
- </TABLE> 
-=======
+<FORM action="main.jsp" method=post name=main_choice>
+<INPUT TYPE="submit" value="back to main">
+</FORM>
   
->>>>>>> 36d37c4564bb545eda424417fee7db17eff438e2
 </body> 
 </html>
  

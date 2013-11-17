@@ -24,7 +24,7 @@
  if(rset != null) { 
 	 while(rset.next()) { 
 	 int exist=rset.getInt("count");
-	 out.print(exist);
+//	 out.print(exist);
 	 if (exist==0){
 		 Statement stmt1 = conn.createStatement(); 
 		 rset = stmt1.executeQuery("insert into Customer values("+name+","+age+")"); 
@@ -46,6 +46,10 @@
  if( conn != null ) { 
  conn.close(); 
  } 
+ }
+ 
+ if( conn != null ) { 
+ conn.close(); 
  } 
 %> 
 
@@ -71,9 +75,7 @@ session.setAttribute("cssn",name);
 <INPUT TYPE="submit" value="Dish" name=score_dish>
 </FORM>
 
- <FORM action="see_score.jsp" method=post>
-<INPUT TYPE="submit" value="see score">
-</FORM>
+
  
 </body> 
 </html>

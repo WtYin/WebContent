@@ -8,8 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-hello manager!
-
+Your ssn is not valid, please input again.
 
 <script language = "JavaScript">
 function check()

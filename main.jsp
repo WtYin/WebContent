@@ -5,31 +5,7 @@
 <!-- This import is necessary for JDBC --> 
 <%@ page import="java.sql.*"%> 
 <%@ page import="oracle.jdbc.pool.OracleDataSource"%> 
- 
-<!-- Database lookup --> 
-<% 
- Connection conn = null; 
- ResultSet rset = null; 
- String error_msg = ""; 
- try { 
- OracleDataSource ods = new OracleDataSource(); 
- 
- ods.setURL("jdbc:oracle:thin:yz2605/yYfCBstY@//w4111b.cs.columbia.edu:1521/ADB"); 
- conn = ods.getConnection(); 
- Statement stmt = conn.createStatement(); 
- rset = stmt.executeQuery("select cssn from Customer"); 
- 
- 
- 
- 
- } catch (SQLException e) { 
- error_msg = e.getMessage(); 
- if( conn != null ) { 
- conn.close(); 
- } 
- } 
-%> 
- 
+
 <html> 
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
@@ -44,30 +20,16 @@ Please choose from the options below:
  <FORM action="customer.jsp" method=post name=form_customer>
 <INPUT TYPE="submit" value="customer" name=customer>
 </FORM>
-  <H2>Employee Table</H2> 
- 
- <TABLE> 
- <tr> 
- <td>CSSN</td>
- </tr> 
- <tr> 
- <td><b>----------</b></td>
- </tr>
-  <% 
- if(rset != null) { 
- while(rset.next()) { 
- out.print("<tr>"); 
- out.print("<td>" + rset.getString("cssn") + "</td>"); 
- out.print("</tr>"); 
- } 
- } else { 
- out.print(error_msg); 
- } 
- if( conn != null ) { 
- conn.close(); 
- } 
- %> 
- </TABLE> 
+
+
+ <FORM action="see_dish_score.jsp" method=post>
+<INPUT TYPE="submit" value="see dish score">
+</FORM>
+
+ <FORM action="see_restaurant_score.jsp" method=post>
+<INPUT TYPE="submit" value="see restaurant score">
+</FORM>
+
 </body> 
 </html>
  

@@ -14,13 +14,14 @@
 
 Thank you for your scoring!
 <!-- <p>Add another score or see the scores</p>
- <FORM action="customer_choice.jsp" method=post name=thankyou_choice>
+ <FORM action="customer.jsp" method=post name=thankyou_choice>
 <INPUT TYPE="submit" value="back to score">
 </FORM>
  -->
-<p>Go back to score waiter:</p>
- <FORM action="customer_add_score_waiter.jsp" method=post name=main_choice>
-<INPUT TYPE="submit" value="back to score waiter">
+ 
+<p>Go back to score dish:</p>
+ <FORM action="customer_add_score_dish.jsp" method=post name=main_choice>
+<INPUT TYPE="submit" value="back to score dish">
 </FORM>
  <!-- Database lookup --> 
 
@@ -29,7 +30,7 @@ Thank you for your scoring!
  ResultSet rset = null; 
  String error_msg = ""; 
  String cssn = session.getAttribute("cssn").toString();
-// out.print(cssn);
+ //out.print(cssn);
  try { 
  OracleDataSource ods = new OracleDataSource(); 
  
@@ -37,14 +38,12 @@ Thank you for your scoring!
  conn = ods.getConnection(); 
  Statement stmt1 = conn.createStatement(); 
  Statement stmt2 = conn.createStatement(); 
-
  
- String waiter_score=request.getParameter("waiter_score");
- String waiter_ssn=request.getParameter("waiter_ssn");
+ String dish_score=request.getParameter("dish_score");
+ String did=request.getParameter("did");
 
- rset = stmt1.executeQuery("insert into serve values(" + waiter_score + ",'" + cssn +"','" + waiter_ssn + "')"); 
- //stmt2.executeQuery("update dish_offer set dscore=(select avg(cdscore) from have_eaten H where did="+did+") where did="+did);
-
+ rset = stmt1.executeQuery("insert into have_eaten values(" + dish_score + ",'" + cssn +"'," + did + ")"); 
+ stmt2.executeQuery("update dish_offer set dscore=(select avg(cdscore) from have_eaten H where did="+did+") where did="+did);
  
  } catch (SQLException e) { 
  error_msg = e.getMessage(); 
